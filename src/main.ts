@@ -11,6 +11,6 @@ async function bootstrap() {
     module.hot.dispose(() => app.close());
   }
 
-  console.info(`Listing on port: ${port}`);
+  console.info(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
