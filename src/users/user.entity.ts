@@ -1,23 +1,26 @@
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   Unique,
-  UpdateDateColumn,
 } from 'typeorm';
+import { Profile } from './profile.entity';
+import { MetaEntity } from '../utils/meta.entity';
+
+export enum LoginPlatform {
+  MANUAL = 'manual',
+  APPLE = 'apple',
+}
 
 @Entity()
-export class User {
-  // TODO: set unique columns (nickname&deletedDate, uid, token), implement profile entity
-
+@Unique(['nickname', 'deletedDt'])
+export class User extends MetaEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ length: 15 })
   nickname: string;
 
   @Column({ default: false })
@@ -29,28 +32,23 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @Column({ default: 'manual' })
-  loginBy: string;
+  @Column({
+    type: 'enum',
+    enum: LoginPlatform,
+    default: LoginPlatform.MANUAL,
+  })
+  loginPlatform: string;
 
-  @Column({ nullable: true })
+  @Column({ length: 300, nullable: true })
   uid: string;
 
-  @Column({ nullable: true })
+  @Column({ length: 1500, nullable: true })
   token: string;
 
-  // @OneToOne(type => Profile, profile => profile.user)
-  // @JoinColumn()
-  // profile: Profile;
+  @OneToOne(() => Profile, (profile) => profile.user)
+  @JoinColumn()
+  profile: Profile;
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
   lastLoginDt: Date;
-
-  @CreateDateColumn()
-  createdDate: Date;
-
-  @UpdateDateColumn()
-  updatedDate: Date;
-
-  @DeleteDateColumn()
-  deletedDate: Date;
 }
