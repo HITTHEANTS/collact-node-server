@@ -9,7 +9,7 @@ import {
 import { Profile } from './profile.entity';
 import { MetaEntity } from '../utils/meta.entity';
 
-export enum LoginPlatform {
+export enum LoginPlatformEnum {
   MANUAL = 'manual',
   APPLE = 'apple',
 }
@@ -34,8 +34,8 @@ export class User extends MetaEntity {
 
   @Column({
     type: 'enum',
-    enum: LoginPlatform,
-    default: LoginPlatform.MANUAL,
+    enum: LoginPlatformEnum,
+    default: LoginPlatformEnum.MANUAL,
   })
   loginPlatform: string;
 
