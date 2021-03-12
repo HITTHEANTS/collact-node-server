@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
-import { Profile } from './profile.entity';
+import { Profile } from '../profiles/profile.entity';
 import { MetaEntity } from '../utils/meta.entity';
 
 export enum LoginPlatformEnum {
@@ -45,7 +45,10 @@ export class User extends MetaEntity {
   @Column({ length: 1500, nullable: true })
   token: string;
 
-  @OneToOne(() => Profile, (profile) => profile.user)
+  @OneToOne(() => Profile, (profile) => profile.user, {
+    cascade: ['insert'],
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   profile: Profile;
 
