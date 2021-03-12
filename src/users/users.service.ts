@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { Profile } from '../profiles/profile.entity';
 
 @Injectable()
 export class UsersService {
@@ -25,10 +26,12 @@ export class UsersService {
     }
 
     const user = new User();
+    const profile = new Profile();
     user.nickname = createUserDto.nickname;
     user.loginPlatform = createUserDto.loginPlatform;
     user.uid = createUserDto.uid;
     user.token = createUserDto.token;
+    user.profile = profile;
     return this.usersRepository.save(user);
   }
 
