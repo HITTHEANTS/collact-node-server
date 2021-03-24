@@ -10,6 +10,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { AuthMiddleware } from './common/middleware/auth.middleware';
 
 @Module({
   imports: [
@@ -38,7 +39,12 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(LoggerMiddleware, LoggerMiddleware)
+      .apply(LoggerMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+    consumer
+      .apply(AuthMiddleware)
+      .exclude({ path: 'users', method: RequestMethod.POST })
+      .exclude({ path: 'users/login', method: RequestMethod.POST })
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }
