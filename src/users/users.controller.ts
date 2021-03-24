@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Req,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
@@ -66,7 +67,8 @@ export class UsersController {
   }
 
   @Get()
-  findAll(): Promise<User[]> {
+  findAll(@Req() req): Promise<User[]> {
+    console.log('Here, U can use user like this', req.user);
     return this.usersService.findAll();
   }
 
