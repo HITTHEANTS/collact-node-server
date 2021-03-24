@@ -8,12 +8,13 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 import { LoginDto } from './dto/login.dto';
+import { JwtPayloadDto } from '../common/dto/jwt-payload.dto';
 
 type LoginResponse = Omit<User & { token: string }, 'id'>;
 
@@ -52,7 +53,12 @@ export class UsersController {
       );
     }
 
-    const token = jwt.sign({ ...user }, this.configService.get('JWT_SECRET'), {
+    const jwtPayload: JwtPayloadDto = {
+      id: user.id,
+      uid: user.uid,
+      nickname: user.nickname,
+    };
+    const token = jwt.sign(jwtPayload, this.configService.get('JWT_SECRET'), {
       expiresIn: '24h',
     });
 
