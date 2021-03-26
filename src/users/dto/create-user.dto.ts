@@ -7,7 +7,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   loginPlatform: LoginPlatformEnum;
   @IsNotEmpty()
-  uid: string;
+  static uid: string;
   @IsNotEmpty()
   token: string;
 }
