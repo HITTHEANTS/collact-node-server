@@ -1,11 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import { Entity, Column, OneToOne, PrimaryColumn, JoinColumn } from 'typeorm';
 import { MetaEntity } from '../utils/meta.entity';
 import { User } from '../users/user.entity';
 
 @Entity()
 export class Profile extends MetaEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @OneToOne(() => User, (user) => user.profile, {
+    primary: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user' })
+  user: User;
 
   @Column({ nullable: true })
   photo: string;
@@ -24,7 +28,4 @@ export class Profile extends MetaEntity {
 
   @Column({ length: 15, nullable: true })
   phone: string;
-
-  @OneToOne(() => User, (user) => user.profile)
-  user: User;
 }
