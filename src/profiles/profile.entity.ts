@@ -1,6 +1,7 @@
 import { Entity, Column, OneToOne, PrimaryColumn, JoinColumn } from 'typeorm';
 import { MetaEntity } from '../utils/meta.entity';
 import { User } from '../users/user.entity';
+import { Expose } from 'class-transformer';
 
 @Entity()
 export class Profile extends MetaEntity {
@@ -28,4 +29,9 @@ export class Profile extends MetaEntity {
 
   @Column({ length: 15, nullable: true })
   phone: string;
+
+  @Expose()
+  get nickname(): string {
+    return this.user.nickname;
+  }
 }
