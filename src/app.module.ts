@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
+import { ProfilesModule } from './profiles/profiles.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { AuthMiddleware } from './common/middleware/auth.middleware';
 import ormConfig from '../ormconfig';
@@ -18,6 +19,7 @@ import ormConfig from '../ormconfig';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({ ...ormConfig }),
     UsersModule,
+    ProfilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
