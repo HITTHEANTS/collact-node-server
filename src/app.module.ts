@@ -11,6 +11,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { AuthMiddleware } from './common/middleware/auth.middleware';
+import { AwsModule } from './aws/aws.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { AuthMiddleware } from './common/middleware/auth.middleware';
       inject: [ConfigService],
     }),
     UsersModule,
+    AwsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
