@@ -16,11 +16,7 @@ import ormConfig from '../ormconfig';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forRootAsync({
-      useFactory: () => ({
-        ...ormConfig,
-      }),
-    }),
+    TypeOrmModule.forRoot({ ...ormConfig }),
     UsersModule,
   ],
   controllers: [AppController],
@@ -33,8 +29,10 @@ export class AppModule implements NestModule {
       .forRoutes({ path: '*', method: RequestMethod.ALL });
     consumer
       .apply(AuthMiddleware)
-      .exclude({ path: 'users', method: RequestMethod.POST })
-      .exclude({ path: 'users/login', method: RequestMethod.POST })
+      .exclude(
+        { path: 'api/users/login', method: RequestMethod.POST },
+        { path: 'api/users', method: RequestMethod.POST },
+      )
       .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }
