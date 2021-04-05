@@ -1,8 +1,9 @@
-import { ConfigService } from '@nestjs/config';
-import { NestMiddleware, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
-import { Request, Response, NextFunction } from 'express';
+import { ConfigService } from '@nestjs/config';
+import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
+
 import { UsersService } from '../../users/users.service';
 import { JwtPayloadDto } from '../dto/jwt-payload.dto';
 

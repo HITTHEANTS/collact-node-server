@@ -11,11 +11,12 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
+
+import { JwtPayloadDto } from '../common/dto/jwt-payload.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { LoginDto } from './dto/login.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
-import { LoginDto } from './dto/login.dto';
-import { JwtPayloadDto } from '../common/dto/jwt-payload.dto';
 
 type LoginResponse = Omit<User & { token: string }, 'id'>;
 

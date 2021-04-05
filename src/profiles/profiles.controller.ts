@@ -7,6 +7,7 @@ import {
   Patch,
   UseInterceptors,
 } from '@nestjs/common';
+
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './profile.entity';
 import { ProfilesService } from './profiles.service';
