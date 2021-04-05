@@ -19,10 +19,7 @@ const config: TypeOrmModuleOptions = {
   // We are using migrations, synchronize should be set to false.
   synchronize: false,
 
-  // Run migrations automatically,
-  // you can disable this if you prefer running migration manually.
-  migrationsRun: true,
-
+  migrationsRun: false,
   logging: 'all',
   logger: 'advanced-console',
   namingStrategy: new SnakeNamingStrategy(),
