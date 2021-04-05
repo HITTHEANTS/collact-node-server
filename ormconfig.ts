@@ -1,6 +1,6 @@
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 dotenv.config();
 
