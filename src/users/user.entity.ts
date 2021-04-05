@@ -1,11 +1,11 @@
 import {
   Column,
   Entity,
-  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
+
 import { Profile } from '../profiles/profile.entity';
 import { MetaEntity } from '../utils/meta.entity';
 

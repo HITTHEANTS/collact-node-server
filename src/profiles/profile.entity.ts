@@ -1,14 +1,15 @@
+import { Expose } from 'class-transformer';
 import {
-  Entity,
   Column,
+  Entity,
+  JoinColumn,
   OneToOne,
   PrimaryColumn,
-  JoinColumn,
   RelationId,
 } from 'typeorm';
-import { MetaEntity } from '../utils/meta.entity';
+
 import { User } from '../users/user.entity';
-import { Expose } from 'class-transformer';
+import { MetaEntity } from '../utils/meta.entity';
 
 @Entity()
 export class Profile extends MetaEntity {
