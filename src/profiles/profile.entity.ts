@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
-import { MetaEntity } from '../utils/meta.entity';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+
 import { User } from '../users/user.entity';
+import { MetaEntity } from '../utils/meta.entity';
 
 @Entity()
 export class Profile extends MetaEntity {

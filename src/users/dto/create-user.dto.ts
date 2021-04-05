@@ -1,5 +1,6 @@
-import { LoginPlatformEnum } from '../user.entity';
 import { IsNotEmpty } from 'class-validator';
+
+import { LoginPlatformEnum } from '../user.entity';
 
 export class CreateUserDto {
   @IsNotEmpty()
