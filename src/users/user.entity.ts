@@ -48,7 +48,6 @@ export class User extends MetaEntity {
   @OneToOne(() => Profile, (profile) => profile.user, {
     cascade: ['insert'],
   })
-  @JoinColumn()
   profile: Profile;
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
