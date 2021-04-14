@@ -26,7 +26,7 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    const user = await this.usersService.findOneByUid(CreateUserDto.uid);
+    const user = await this.usersService.findOneByUid(createUserDto.uid);
 
     if (user) {
       const errors = { uid: 'uid is already signed-up.' };
