@@ -1,4 +1,11 @@
-import { Entity, Column, OneToOne, PrimaryColumn, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  OneToOne,
+  PrimaryColumn,
+  JoinColumn,
+  RelationId,
+} from 'typeorm';
 import { MetaEntity } from '../utils/meta.entity';
 import { User } from '../users/user.entity';
 import { Expose } from 'class-transformer';
@@ -6,11 +13,14 @@ import { Expose } from 'class-transformer';
 @Entity()
 export class Profile extends MetaEntity {
   @OneToOne(() => User, (user) => user.profile, {
-    primary: true,
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'user' })
+  @JoinColumn()
   user: User;
+
+  @PrimaryColumn()
+  @RelationId((profile: Profile) => profile.user)
+  userId: number;
 
   @Column({ nullable: true })
   photo: string;
