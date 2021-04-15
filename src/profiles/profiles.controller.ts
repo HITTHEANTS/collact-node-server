@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Patch } from '@nestjs/common';
+import {
+  Body,
+  ClassSerializerInterceptor,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './profile.entity';
 import { ProfilesService } from './profiles.service';
@@ -7,6 +15,7 @@ import { ProfilesService } from './profiles.service';
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @Patch(':id')
   update(
     @Param('id') id: string,
