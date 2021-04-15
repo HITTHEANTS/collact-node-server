@@ -12,7 +12,7 @@ const config: TypeOrmModuleOptions = {
   password: process.env.TYPEORM_DB_PASSWORD,
   database: process.env.TYPEORM_DB_NAME,
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-  migrations: [__dirname + '/migration/**/*{.ts,.js}'],
+  migrations: [__dirname + '/**/migration/**/*.ts'],
   cli: {
     migrationsDir: 'src/migration',
   },
