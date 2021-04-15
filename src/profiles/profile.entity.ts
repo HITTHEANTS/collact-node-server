@@ -42,6 +42,7 @@ export class Profile extends MetaEntity {
 
   @Expose()
   get nickname(): string {
-    return this.user.nickname;
+    //TODO(jayden)
+    return 'this.user.nickname';
   }
 }
