@@ -15,9 +15,8 @@ export class ProfilesService {
     id: string,
     updateProfileDto: UpdateProfileDto,
   ): Promise<Profile> {
-    const before = await this.profilesRepository.findOne(id);
-    const after = Object.assign(before, updateProfileDto);
-    return await this.profilesRepository.save(after);
+    await this.profilesRepository.update(id, updateProfileDto);
+    return await this.profilesRepository.findOne(id);
   }
 
   async findAll(): Promise<Profile[]> {
