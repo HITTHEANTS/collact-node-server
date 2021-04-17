@@ -61,7 +61,7 @@ export class UsersController {
       nickname: user.nickname,
     };
     const token = jwt.sign(jwtPayload, this.configService.get('JWT_SECRET'), {
-      expiresIn: '24h',
+      expiresIn: '360d',
     });
 
     return { ...user, token };
