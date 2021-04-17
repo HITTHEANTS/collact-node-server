@@ -22,6 +22,8 @@ export class ProfilesController {
     @Param('id') id: string,
     @Body() updateProfileDto: UpdateProfileDto,
   ): Promise<Profile> {
+
+    
     return this.profilesService.update(id, updateProfileDto);
   }
 
