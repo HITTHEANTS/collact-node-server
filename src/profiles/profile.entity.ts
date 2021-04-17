@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import {
   Column,
   Entity,
@@ -13,15 +13,14 @@ import { MetaEntity } from '../utils/meta.entity';
 
 @Entity()
 export class Profile extends MetaEntity {
+  @Exclude()
   @OneToOne(() => User, (user) => user.profile, {
     onDelete: 'CASCADE',
+    primary: true,
+    eager: true,
   })
-  @JoinColumn()
+  @JoinColumn({ name: 'user_id' })
   user: User;
-
-  @PrimaryColumn()
-  @RelationId((profile: Profile) => profile.user)
-  userId: number;
 
   @Column({ nullable: true })
   photo: string;
@@ -43,7 +42,6 @@ export class Profile extends MetaEntity {
 
   @Expose()
   get nickname(): string {
-    //TODO(jayden)
-    return 'this.user.nickname';
+    return this.user.nickname;
   }
 }
