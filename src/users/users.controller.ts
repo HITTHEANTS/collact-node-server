@@ -28,7 +28,17 @@ export class UsersController {
   ) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto): Promise<User> {
+  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+    const user = await this.usersService.findOneByUid(createUserDto.uid);
+
+    if (user) {
+      const errors = { uid: 'uid is already signed-up.' };
+      throw new HttpException(
+        { message: 'input data validation failed.', errors },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     return this.usersService.create(createUserDto);
   }
 
