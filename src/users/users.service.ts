@@ -37,15 +37,18 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    return this.usersRepository.find({ relations: ['profile'] });
   }
 
   findOne(id: string): Promise<User> {
-    return this.usersRepository.findOne(id);
+    return this.usersRepository.findOne(id, { relations: ['profile'] });
   }
 
   findOneByUid(uid: string): Promise<User | undefined> {
-    return this.usersRepository.findOne({ where: { uid } });
+    return this.usersRepository.findOne({
+      where: { uid },
+      relations: ['profile'],
+    });
   }
 
   async remove(id: string): Promise<void> {

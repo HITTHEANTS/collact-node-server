@@ -11,7 +11,6 @@ export class Profile extends MetaEntity {
   @OneToOne(() => User, (user) => user.profile, {
     onDelete: 'CASCADE',
     primary: true,
-    eager: true,
   })
   @JoinColumn({ name: 'user_id' })
   user: User;

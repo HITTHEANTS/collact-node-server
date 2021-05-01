@@ -18,8 +18,6 @@ import { LoginDto } from './dto/login.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 
-type LoginResponse = Omit<User & { token: string }, 'id'>;
-
 @Controller('users')
 export class UsersController {
   constructor(
@@ -33,7 +31,7 @@ export class UsersController {
   }
 
   @Post('login')
-  async login(@Body() loginDto: LoginDto): Promise<LoginResponse> {
+  async login(@Body() loginDto: LoginDto): Promise<User> {
     const user = await this.usersService.findOneByUid(loginDto.uid);
 
     // TODO: (validation) validate firebase uid using token
@@ -60,11 +58,18 @@ export class UsersController {
       uid: user.uid,
       nickname: user.nickname,
     };
-    const token = jwt.sign(jwtPayload, this.configService.get('JWT_SECRET'), {
-      expiresIn: '360d',
-    });
+    const authToken = jwt.sign(
+      jwtPayload,
+      this.configService.get('JWT_SECRET'),
+      {
+        expiresIn: '360d',
+      },
+    );
 
-    return { ...user, token };
+    // TODO(jayden): login response type add authToken
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return { ...user, authToken };
   }
 
   @Get()

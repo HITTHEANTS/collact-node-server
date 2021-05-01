@@ -17,14 +17,14 @@ export class ProfilesService {
     updateProfileDto: UpdateProfileDto,
   ): Promise<Profile> {
     await this.profilesRepository.update(id, updateProfileDto);
-    return await this.profilesRepository.findOne(id);
+    return await this.profilesRepository.findOne(id, { relations: ['user'] });
   }
 
   async findAll(): Promise<Profile[]> {
-    return this.profilesRepository.find();
+    return this.profilesRepository.find({ relations: ['user'] });
   }
 
   findOne(id: string): Promise<Profile> {
-    return this.profilesRepository.findOne(id);
+    return this.profilesRepository.findOne(id, { relations: ['user'] });
   }
 }
