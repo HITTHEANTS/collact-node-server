@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
 
 export abstract class MetaEntity {
@@ -5,8 +6,8 @@ export abstract class MetaEntity {
   createdDt: Date;
 
   @UpdateDateColumn()
-  updatedDt: Date;
+  updatedDt: Date | null;
 
   @DeleteDateColumn()
-  deletedDt: Date;
+  deletedDt: Date | null;
 }
