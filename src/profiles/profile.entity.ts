@@ -1,12 +1,6 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Expose } from 'class-transformer';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryColumn,
-  RelationId,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 
 import { User } from '../users/user.entity';
 import { MetaEntity } from '../utils/meta.entity';
@@ -23,23 +17,24 @@ export class Profile extends MetaEntity {
   user: User;
 
   @Column({ nullable: true })
-  photo: string;
+  photo: string | null;
 
   @Column({ length: 50, nullable: true })
-  contact: string;
+  contact: string | null;
 
   @Column({ length: 50, nullable: true })
-  intro: string;
+  intro: string | null;
 
   @Column({ type: 'text', nullable: true })
-  details: string;
+  details: string | null;
 
   @Column({ nullable: true })
-  email: string;
+  email: string | null;
 
   @Column({ length: 15, nullable: true })
-  phone: string;
+  phone: string | null;
 
+  @ApiProperty({ type: String })
   @Expose()
   get nickname(): string {
     return this.user.nickname;
