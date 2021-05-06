@@ -7,13 +7,10 @@ import {
   Patch,
   UseInterceptors,
 } from '@nestjs/common';
-import { OmitType } from '@nestjs/swagger';
 
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { Profile } from './profile.entity';
+import { ProfileResponse } from './profile.swagger';
 import { ProfilesService } from './profiles.service';
-
-class ProfileResponse extends OmitType(Profile, ['user'] as const) {}
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('profiles')
