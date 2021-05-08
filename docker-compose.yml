@@ -1,9 +1,13 @@
 version: '3.3'
 services:
-  collact-api-server:
+  collact-api:
+    container_name: collact-api
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile
+    depends_on:
+      - collact-db
     ports:
       - '80:8080'
     environment:
@@ -19,12 +23,15 @@ services:
       - AWS_ACCESS_KEY_ID=""
       - AWS_SECRET_ACCESS_KEY=""
 
-    command: wait-for-it collact-db:5432 -- npm run start
+    command: /collact/www/.docker/entrypoint.sh
     depends_on:
       - collact-db
 
   collact-db:
+    container_name: collact-db
     image: postgres:13.1-alpine
+    expose:
+      - 5432
     environment:
       - POSTGRES_USER=collact
       - POSTGRES_PASSWORD=collact_password
