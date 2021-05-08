@@ -10,6 +10,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import ormConfig from '../ormconfig';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AwsModule } from './aws/aws.module';
 import { AuthMiddleware } from './common/middleware/auth.middleware';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ProfilesModule } from './profiles/profiles.module';
@@ -20,6 +21,7 @@ import { UsersModule } from './users/users.module';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({ ...ormConfig }),
     UsersModule,
+    AwsModule,
     ProfilesModule,
   ],
   controllers: [AppController],
