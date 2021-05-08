@@ -16,7 +16,7 @@ export class ProfilesService {
     id: string,
     updateProfileDto: UpdateProfileDto,
   ): Promise<Profile> {
-    await this.profilesRepository.update(id, updateProfileDto);
+    await this.profilesRepository.update(id, { ...updateProfileDto });
     return await this.profilesRepository.findOne(id, { relations: ['user'] });
   }
 
