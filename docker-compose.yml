@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    depends_on:
-      - collact-db
     ports:
       - '80:8080'
     environment:
@@ -22,7 +20,6 @@ services:
       - AWS_REGION="ap-northeast-2"
       - AWS_ACCESS_KEY_ID=""
       - AWS_SECRET_ACCESS_KEY=""
-
     command: /collact/www/.docker/entrypoint.sh
     depends_on:
       - collact-db
