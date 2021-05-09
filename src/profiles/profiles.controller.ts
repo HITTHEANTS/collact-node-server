@@ -9,10 +9,11 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 
 import { AwsService } from '../aws/aws.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
-import { ProfileResponse } from './profile.swagger';
+import { ProfilePatchBody, ProfileResponse } from './profile.swagger';
 import { ProfilesService } from './profiles.service';
 
 @UseInterceptors(ClassSerializerInterceptor)
@@ -23,8 +24,12 @@ export class ProfilesController {
     private readonly profilesService: ProfilesService,
   ) {}
 
-  @UseInterceptors(FileInterceptor('file'))
   @Patch(':id')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: ProfilePatchBody,
+  })
+  @UseInterceptors(FileInterceptor('file'))
   async update(
     @Param('id') id: string,
     @Body() updateProfileDto: UpdateProfileDto,
