@@ -1,6 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -9,7 +8,6 @@ import {
   Param,
   Post,
   Req,
-  UseInterceptors,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
@@ -28,7 +26,6 @@ export class UsersController {
     private readonly configService: ConfigService,
   ) {}
 
-  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   create(@Body() createUserDto: CreateUserDto): Promise<UserResponse> {
     return this.usersService.create(createUserDto);
