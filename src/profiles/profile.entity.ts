@@ -1,7 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Expose } from 'class-transformer';
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToOne,
+} from 'typeorm';
 
+import { Project } from '../projects/project.entity';
 import { User } from '../users/user.entity';
 import { MetaEntity } from '../utils/meta.entity';
 
@@ -25,13 +33,19 @@ export class Profile extends MetaEntity {
   intro: string | null;
 
   @Column({ type: 'text', nullable: true })
-  details: string | null;
+  detail: string | null;
 
   @Column({ nullable: true })
   email: string | null;
 
   @Column({ length: 15, nullable: true })
   phone: string | null;
+
+  @ManyToMany((type) => Project, (project) => project.collaborators, {
+    onDelete: 'DEFAULT',
+  })
+  @JoinTable()
+  projects: Project[];
 
   @ApiProperty({ type: String })
   @Expose()

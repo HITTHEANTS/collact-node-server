@@ -15,6 +15,7 @@ import { AuthMiddleware } from './common/middleware/auth.middleware';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ProfilesModule } from './profiles/profiles.module';
 import { UsersModule } from './users/users.module';
+import { ProjectsModule } from './projects/projects.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     AwsModule,
     ProfilesModule,
+    ProjectsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
