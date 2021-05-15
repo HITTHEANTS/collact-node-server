@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UpdateProfileDao } from './dto/update-profile.dto';
 import { Profile } from './profile.entity';
 
 @Injectable()
@@ -14,9 +14,9 @@ export class ProfilesService {
 
   async update(
     id: string,
-    updateProfileDto: UpdateProfileDto,
+    updateProfileDao: UpdateProfileDao,
   ): Promise<Profile> {
-    await this.profilesRepository.update(id, { ...updateProfileDto });
+    await this.profilesRepository.update(id, { ...updateProfileDao });
     return await this.profilesRepository.findOne(id, { relations: ['user'] });
   }
 

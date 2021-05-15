@@ -29,15 +29,18 @@ export class ProfilesController {
   @ApiBody({
     type: ProfilePatchBody,
   })
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('photo'))
   async update(
     @Param('id') id: string,
     @Body() updateProfileDto: UpdateProfileDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() photo: Express.Multer.File,
   ): Promise<ProfileResponse> {
-    if (file) {
-      const photo = await this.awsService.upload(file, 'profiles');
-      return this.profilesService.update(id, { ...updateProfileDto, photo });
+    if (photo) {
+      const photoPath = await this.awsService.upload(photo, 'profiles');
+      return this.profilesService.update(id, {
+        ...updateProfileDto,
+        photo: photoPath,
+      });
     }
     return this.profilesService.update(id, updateProfileDto);
   }

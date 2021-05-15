@@ -7,5 +7,5 @@ export class ProfileResponse extends OmitType(Profile, ['user'] as const) {}
 
 export class ProfilePatchBody extends PartialType(UpdateProfileDto) {
   @ApiProperty({ type: 'string', format: 'binary', required: false })
-  file: any | null;
+  photo: any | null;
 }
