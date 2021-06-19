@@ -52,6 +52,11 @@ export class UsersService {
   }
 
   async remove(id: string): Promise<void> {
-    await this.usersRepository.delete(id);
+    const targetUser = await this.usersRepository.findOne(id, {
+      relations: ['profile'],
+    });
+    if (!targetUser) throw new Error('There is no user who has this ID');
+
+    await this.usersRepository.softRemove(targetUser);
   }
 }

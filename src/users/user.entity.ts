@@ -46,7 +46,7 @@ export class User extends MetaEntity {
   token: string;
 
   @OneToOne(() => Profile, (profile) => profile.user, {
-    cascade: ['insert'],
+    cascade: ['insert', 'soft-remove'],
     onDelete: 'CASCADE',
   })
   profile: Profile;
