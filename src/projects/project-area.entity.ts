@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 import { MetaEntity } from '../utils/meta.entity';
 import { Project } from './project.entity';
@@ -11,7 +11,7 @@ export class ProjectArea extends MetaEntity {
   @Column({ length: 50 })
   area: string;
 
-  @ManyToOne((type) => Project, (project) => project.areas, {
+  @ManyToMany((type) => Project, (project) => project.areas, {
     onDelete: 'CASCADE',
   })
   projects: Project;
