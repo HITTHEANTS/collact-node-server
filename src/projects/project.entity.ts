@@ -23,12 +23,12 @@ export class Project extends MetaEntity {
   photos: ProjectPhoto[];
 
   @ManyToMany((type) => Profile, (profile) => profile.projects, {
-    onDelete: 'DEFAULT',
+    onDelete: 'CASCADE',
   })
   collaborators: Profile[];
 
   @ManyToMany((type) => ProjectArea, (area) => area.projects, {
-    onDelete: 'DEFAULT',
+    onDelete: 'CASCADE',
   })
   @JoinTable()
   areas: ProjectArea[];

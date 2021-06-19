@@ -12,7 +12,7 @@ export class ProjectPhoto extends MetaEntity {
   photo: string | null;
 
   @ManyToOne((type) => Project, (project) => project.photos, {
-    onDelete: 'DEFAULT',
+    onDelete: 'CASCADE',
   })
   project: Project;
 }
