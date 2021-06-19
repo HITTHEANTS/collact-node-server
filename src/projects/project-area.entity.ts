@@ -12,7 +12,7 @@ export class ProjectArea extends MetaEntity {
   area: string;
 
   @ManyToOne((type) => Project, (project) => project.areas, {
-    onDelete: 'DEFAULT',
+    onDelete: 'CASCADE',
   })
   projects: Project;
 }

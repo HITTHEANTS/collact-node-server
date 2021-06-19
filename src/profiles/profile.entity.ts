@@ -42,7 +42,7 @@ export class Profile extends MetaEntity {
   phone: string | null;
 
   @ManyToMany((type) => Project, (project) => project.collaborators, {
-    onDelete: 'DEFAULT',
+    onDelete: 'CASCADE',
   })
   @JoinTable()
   projects: Project[];
