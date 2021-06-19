@@ -8,7 +8,7 @@ export class ProjectPhoto extends MetaEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 50, nullable: true })
+  @Column({ nullable: true })
   photo: string | null;
 
   @ManyToOne((type) => Project, (project) => project.photos, {

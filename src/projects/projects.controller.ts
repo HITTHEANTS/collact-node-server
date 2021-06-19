@@ -1,0 +1,58 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Req,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+
+import { AwsService } from '../aws/aws.service';
+import { CreateProjectDto } from './dto/create-project.dto';
+import { Project } from './project.entity';
+import { ProjectsService } from './projects.service';
+
+@Controller('projects')
+export class ProjectsController {
+  constructor(
+    private readonly awsService: AwsService,
+    private readonly projectsService: ProjectsService,
+  ) {}
+
+  @Post()
+  @UseInterceptors(FileInterceptor('photos'))
+  async create(
+    @Req() req,
+    @Body() createProjectDto: CreateProjectDto,
+    @UploadedFile() photos: Express.Multer.File, // TODO: 여러 사진 파일 받을 수 있도록
+  ): Promise<Project> {
+    if (photos) {
+      const photoPath = await this.awsService.upload(photos, 'profiles');
+      return this.projectsService.create({
+        ...createProjectDto,
+        photos: photoPath,
+        collaborators: `${req.user.id},${createProjectDto.collaborators}`,
+      });
+    }
+    return this.projectsService.create(createProjectDto);
+  }
+
+  @Get()
+  findAll(): Promise<Project[]> {
+    return this.projectsService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string): Promise<Project> {
+    return this.projectsService.findOne(id);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string): Promise<void> {
+    return this.projectsService.remove(id);
+  }
+}
