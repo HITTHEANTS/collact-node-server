@@ -1,7 +1,7 @@
 class UpdateProfileBase {
   contact?: string;
   intro?: string;
-  details?: string;
+  detail?: string;
   email?: string;
   phone?: string;
 }
