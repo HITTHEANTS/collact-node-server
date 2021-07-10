@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Profile } from '../profiles/profile.entity';
+import { parseMultipleIds } from '../utils/parser';
 import {
   CreateProjectDao,
   CreateProjectDaoHelper,
@@ -27,9 +28,11 @@ export class ProjectsService {
   async create(
     createProjectDaoHelper: CreateProjectDaoHelper,
   ): Promise<Project> {
-    const areas = createProjectDaoHelper.areas.split(',');
-    const collaborators = createProjectDaoHelper.collaborators.split(',');
-    const photoPaths = [createProjectDaoHelper.photos];
+    const areas = parseMultipleIds(createProjectDaoHelper.areas);
+    const collaborators = parseMultipleIds(
+      createProjectDaoHelper.collaborators,
+    );
+    const photoPaths = [createProjectDaoHelper.photos]; // TODO: 여러 사진 파일 받은 걸 split
 
     const createProjectDao: CreateProjectDao = {
       ...createProjectDaoHelper,
