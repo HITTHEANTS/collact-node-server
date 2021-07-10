@@ -31,7 +31,7 @@ export class CreateProjectDaoHelper extends CreateProjectBase {
   areas: string;
   @IsNotEmpty()
   collaborators: string;
-  photos?: string;
+  photos?: string[];
 }
 
 export class CreateProjectDao extends CreateProjectBase {

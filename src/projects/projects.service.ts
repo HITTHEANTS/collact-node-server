@@ -32,7 +32,7 @@ export class ProjectsService {
     const collaborators = parseMultipleIds(
       createProjectDaoHelper.collaborators,
     );
-    const photoPaths = [createProjectDaoHelper.photos]; // TODO: 여러 사진 파일 받은 걸 split
+    const photoPaths = createProjectDaoHelper.photos;
 
     const createProjectDao: CreateProjectDao = {
       ...createProjectDaoHelper,
@@ -41,8 +41,16 @@ export class ProjectsService {
       collaborators: await this.profilesRepository.findByIds(collaborators),
     };
     const project = await this.projectsRepository.save(createProjectDao);
-    const rawPhotos = photoPaths.map((path) => ({ photo: path, project }));
-    await this.projectPhotosRepository.save(rawPhotos);
+    const rawPhotos = photoPaths.map((path) => ({
+      photo: path,
+      project,
+    }));
+    project.photos = (await this.projectPhotosRepository.save(rawPhotos)).map(
+      (photo) => {
+        delete photo.project;
+        return photo;
+      },
+    );
 
     return project;
   }

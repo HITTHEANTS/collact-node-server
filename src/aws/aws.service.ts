@@ -16,7 +16,10 @@ export class AwsService {
     this.s3 = new AWS.S3();
   }
 
-  async upload(file: Express.Multer.File, imgPath: string): Promise<string> {
+  async uploadFile(
+    file: Express.Multer.File,
+    imgPath: string,
+  ): Promise<string> {
     const filename = `${imgPath}/${short.generate()}-${file.originalname}`;
     const uploadParams = {
       Bucket: this.configService.get('AWS_S3_BUCKET'),
@@ -26,5 +29,23 @@ export class AwsService {
 
     await this.s3.upload(uploadParams).promise();
     return filename;
+  }
+
+  async uploadMultipleFiles(
+    files: Array<Express.Multer.File>,
+    imgPath: string,
+  ): Promise<string[]> {
+    const filenames = [];
+    for (const file of files) {
+      const filename = `${imgPath}/${short.generate()}-${file.originalname}`;
+      const uploadParams = {
+        Bucket: this.configService.get('AWS_S3_BUCKET'),
+        Key: filename,
+        Body: file.buffer,
+      };
+      await this.s3.upload(uploadParams).promise();
+      filenames.push(filename);
+    }
+    return filenames;
   }
 }
