@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
 
 import { AwsService } from '../aws/aws.service';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -26,8 +26,7 @@ export class ProjectsController {
   ) {}
 
   @Get('areas')
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     type: ProjectsAreaGetResponse,
     isArray: true,
   })
