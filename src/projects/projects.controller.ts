@@ -6,10 +6,10 @@ import {
   Param,
   Post,
   Req,
-  UploadedFile,
+  UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 
 import { AwsService } from '../aws/aws.service';
@@ -30,14 +30,17 @@ export class ProjectsController {
   @ApiBody({
     type: ProjectPostBody,
   })
-  @UseInterceptors(FileInterceptor('photos'))
+  @UseInterceptors(FilesInterceptor('photos'))
   async create(
     @Req() req,
     @Body() createProjectDto: CreateProjectDto,
-    @UploadedFile() photos: Express.Multer.File, // TODO: 여러 사진 파일 받을 수 있도록
+    @UploadedFiles() photos: Express.Multer.File[], // TODO: 여러 사진 파일 받을 수 있도록
   ): Promise<Project> {
     if (photos) {
-      const photoPath = await this.awsService.upload(photos, 'profiles');
+      const photoPath = await this.awsService.uploadMultipleFiles(
+        photos,
+        'profiles',
+      );
       return this.projectsService.create({
         ...createProjectDto,
         photos: photoPath,

@@ -36,7 +36,7 @@ export class ProfilesController {
     @UploadedFile() photo: Express.Multer.File,
   ): Promise<ProfileResponse> {
     if (photo) {
-      const photoPath = await this.awsService.upload(photo, 'profiles');
+      const photoPath = await this.awsService.uploadFile(photo, 'profiles');
       return this.profilesService.update(id, {
         ...updateProfileDto,
         photo: photoPath,
