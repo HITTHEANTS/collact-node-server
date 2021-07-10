@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
 import { Profile } from '../../profiles/profile.entity';
@@ -11,8 +12,16 @@ class CreateProjectBase {
 }
 
 export class CreateProjectDto extends CreateProjectBase {
+  @ApiProperty({
+    description: 'areas 의 id 들을 ,로 연결해서 보내주세요 (example: "1,3,10")',
+  })
   @IsNotEmpty()
   areas: string;
+
+  @ApiProperty({
+    description:
+      'collaborators 의 id 들을 ,로 연결해서 보내주세요 (example: "1,3,10")',
+  })
   @IsNotEmpty()
   collaborators: string;
 }
