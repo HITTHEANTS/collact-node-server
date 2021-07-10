@@ -10,11 +10,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 
 import { AwsService } from '../aws/aws.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { Project } from './project.entity';
 import { ProjectsService } from './projects.service';
+import { ProjectPostBody } from './projects.swagger';
 
 @Controller('projects')
 export class ProjectsController {
@@ -24,6 +26,10 @@ export class ProjectsController {
   ) {}
 
   @Post()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    type: ProjectPostBody,
+  })
   @UseInterceptors(FileInterceptor('photos'))
   async create(
     @Req() req,
