@@ -10,13 +10,13 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiResponse } from '@nestjs/swagger';
 
 import { AwsService } from '../aws/aws.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { Project } from './project.entity';
 import { ProjectsService } from './projects.service';
-import { ProjectPostBody } from './projects.swagger';
+import { ProjectPostBody, ProjectsAreaGetResponse } from './projects.swagger';
 
 @Controller('projects')
 export class ProjectsController {
@@ -24,6 +24,16 @@ export class ProjectsController {
     private readonly awsService: AwsService,
     private readonly projectsService: ProjectsService,
   ) {}
+
+  @Get('areas')
+  @ApiResponse({
+    status: 200,
+    type: ProjectsAreaGetResponse,
+    isArray: true,
+  })
+  getAllAreas() {
+    return this.projectsService.findAllAreas();
+  }
 
   @Post()
   @ApiConsumes('multipart/form-data')

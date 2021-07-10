@@ -63,6 +63,10 @@ export class ProjectsService {
     return this.projectsRepository.findOne(id);
   }
 
+  async findAllAreas(): Promise<Array<Omit<ProjectArea, 'projects'>>> {
+    return this.projectAreasRepository.find();
+  }
+
   async remove(id: string): Promise<void> {
     await this.projectsRepository.delete(id);
   }
