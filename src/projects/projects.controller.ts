@@ -45,6 +45,10 @@ export class ProjectsController {
     @Body() createProjectDto: CreateProjectDto,
     @UploadedFiles() photos: Express.Multer.File[], // TODO: 여러 사진 파일 받을 수 있도록
   ): Promise<Project> {
+    const collaborators = createProjectDto.collaborators
+      ? `${createProjectDto.collaborators}`
+      : '';
+
     if (photos) {
       const photoPath = await this.awsService.uploadMultipleFiles(
         photos,
@@ -53,7 +57,7 @@ export class ProjectsController {
       return this.projectsService.create({
         ...createProjectDto,
         photos: photoPath,
-        collaborators: `${req.user.id},${createProjectDto.collaborators}`,
+        collaborators: `${req.user.id},${collaborators}`,
       });
     }
     return this.projectsService.create(createProjectDto);

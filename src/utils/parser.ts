@@ -1,3 +1,3 @@
 export const parseMultipleIds = (ids: string) => {
-  return ids.split(',');
+  return ids.split(',').map(Number);
 };
