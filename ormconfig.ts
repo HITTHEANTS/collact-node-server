@@ -1,10 +1,10 @@
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 dotenv.config();
 
-const config: TypeOrmModuleOptions = {
+export const defaultConfig: TypeOrmModuleOptions = {
   type: 'postgres',
   host: process.env.TYPEORM_DB_HOST,
   port: +process.env.TYPEORM_DB_PORT,
@@ -24,5 +24,19 @@ const config: TypeOrmModuleOptions = {
   logger: 'advanced-console',
   namingStrategy: new SnakeNamingStrategy(),
 };
+
+const config: TypeOrmModuleOptions[] = [
+  {
+    ...defaultConfig,
+  },
+  {
+    ...defaultConfig,
+    name: 'seeds',
+    migrations: [__dirname + '/**/seeds/*.ts'],
+    cli: {
+      migrationsDir: 'src/seeds',
+    },
+  },
+];
 
 export default config;

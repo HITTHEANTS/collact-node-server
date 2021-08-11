@@ -7,15 +7,15 @@ import {
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import ormConfig from '../ormconfig';
+import { defaultConfig as ormConfig } from '../ormconfig';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AwsModule } from './aws/aws.module';
 import { AuthMiddleware } from './common/middleware/auth.middleware';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ProfilesModule } from './profiles/profiles.module';
-import { UsersModule } from './users/users.module';
 import { ProjectsModule } from './projects/projects.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
