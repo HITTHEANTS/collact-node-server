@@ -8,6 +8,7 @@ import {
   CreateProjectDao,
   CreateProjectDaoHelper,
 } from './dto/create-project.dto';
+import { UpdateProjectDaoHelper } from './dto/update-project.dto';
 import { Project } from './project.entity';
 import { ProjectArea } from './project-area.entity';
 import { ProjectPhoto } from './project-photo.entity';
@@ -55,7 +56,11 @@ export class ProjectsService {
     return project;
   }
 
-  async findAll(): Promise<Project[]> {
+  async update(updateProjectDaoHelper: UpdateProjectDaoHelper) {
+    this.projectsRepository.save(updateProjectDaoHelper);
+  }
+
+  findAll(): Promise<Project[]> {
     return this.projectsRepository.find();
   }
 
@@ -63,11 +68,11 @@ export class ProjectsService {
     return this.projectsRepository.findOne(id);
   }
 
-  async findAllAreas(): Promise<Array<Omit<ProjectArea, 'projects'>>> {
+  findAllAreas(): Promise<Array<Omit<ProjectArea, 'projects'>>> {
     return this.projectAreasRepository.find();
   }
 
-  async remove(id: string): Promise<void> {
-    await this.projectsRepository.delete(id);
+  remove(id: string) {
+    return this.projectsRepository.delete(id);
   }
 }

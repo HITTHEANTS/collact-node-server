@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Req,
   UploadedFiles,
@@ -13,7 +14,9 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOkResponse } from '@nestjs/swagger';
 
 import { AwsService } from '../aws/aws.service';
+import { ProfileResponse } from '../profiles/profile.swagger';
 import { CreateProjectDto } from './dto/create-project.dto';
+import { UpdateProjectDto } from './dto/update-project.dto';
 import { Project } from './project.entity';
 import { ProjectsService } from './projects.service';
 import { ProjectPostBody, ProjectsAreaGetResponse } from './projects.swagger';
@@ -43,7 +46,7 @@ export class ProjectsController {
   async create(
     @Req() req,
     @Body() createProjectDto: CreateProjectDto,
-    @UploadedFiles() photos: Express.Multer.File[], // TODO: 여러 사진 파일 받을 수 있도록
+    @UploadedFiles() photos: Express.Multer.File[],
   ): Promise<Project> {
     const collaborators = createProjectDto.collaborators
       ? `${createProjectDto.collaborators}`
@@ -63,6 +66,30 @@ export class ProjectsController {
     return this.projectsService.create(createProjectDto);
   }
 
+  // @ApiBody({
+  //   type: ProfilePatchBody,
+  // })
+  @Patch(':id')
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FilesInterceptor('photos'))
+  async update(
+    @Param('id') id: string,
+    @Body() updateProjectDto: UpdateProjectDto,
+    @UploadedFiles() photos: Express.Multer.File[],
+  ): Promise<ProfileResponse> {
+    if (photos) {
+      const paths = Promise.all(
+        photos.map((photo) => this.awsService.uploadFile(photo, 'projects')),
+      );
+
+      return this.projectsService.update(id, {
+        ...projectsService,
+        photo: photoPath,
+      });
+    }
+    return this.profilesService.update(id, updateProfileDto);
+  }
+
   @Get()
   findAll(): Promise<Project[]> {
     return this.projectsService.findAll();
@@ -74,7 +101,7 @@ export class ProjectsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<void> {
-    return this.projectsService.remove(id);
+  async remove(@Param('id') id: string): Promise<void> {
+    await this.projectsService.remove(id);
   }
 }
